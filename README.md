@@ -1,7 +1,6 @@
 # Simple Security Headers
 
 A tool for checking HTTP headers and cookies attributes.
-It'll ease your day.
 
 ## Security HTTP headers checked
 - Content-Security-Policy (CSP)
