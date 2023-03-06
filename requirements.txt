@@ -1,5 +1,5 @@
 requests
 validator_collection
-git+https://github.com/martibarri/huepy.git
+git+https://github.com/s0md3v/huepy.git
 bs4
 lxml
