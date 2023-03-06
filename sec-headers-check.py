@@ -66,8 +66,6 @@ def main():
     html = response.text
     soup = BeautifulSoup(html, "lxml")
 
-    wappalyzer_json_url = "https://raw.githubusercontent.com/AliasIO/wappalyzer/master/src/technologies.json"
-
     check_headers = [
         'X-Content-Type-Options',
         'X-Frame-Options',
@@ -126,102 +124,6 @@ def main():
     else:
         print(info('not found'))
 
-    print(f"\n{run(bold('Checking Wappalyzer Regular Expressions...'))}")
-
-    # Prepare wappalyzer data
-    wappalyzer_json_file = requests.get(wappalyzer_json_url)
-    if wappalyzer_json_file.ok:
-        try:
-            wappalyzer_json = json.loads(wappalyzer_json_file.text)
-        except json.decoder.JSONDecodeError as e:
-            print(bold(bad(f"{bold(red('JSONDecodeError'))}: {e}")))
-            exit()
-    else:
-        print(bold(bad(f"{bold(red(f'Unable to get wappalyzer json file {wappalyzer_json_url}'))}")))
-        exit()
-
-    wappalyzer_categories = wappalyzer_json['categories']
-    saved_apps = {}
-    for k, v in wappalyzer_categories.items():
-        name = wappalyzer_categories[k]['name']
-        saved_apps[name] = set()
-
-    wappalyzer_tech = wappalyzer_json['technologies']
-    wappalyzer_names = {}
-    for app_name, details in wappalyzer_tech.items():
-        wappalyzer_names[app_name] = set()
-        if 'cats' in details.keys():
-            for ca in details['cats']:
-                wappalyzer_names[app_name].add(ca)
-
-    # Parse meta data
-    metas = []
-    for meta in soup.findAll('meta'):
-        meta_object = list(meta.attrs.keys()) + list(meta.attrs.values())
-        metas.append(meta_object)
-
-    for app_name, details in wappalyzer_tech.items():
-        found = False
-        try:
-            # Check meta
-            if 'meta' in details.keys():
-                for k, v in details['meta'].items():
-                    for meta in metas:
-                        if k in meta and re.search(v, ' '.join(meta)):
-                            for cat in details['cats']:
-                                name = wappalyzer_categories[str(cat)]['name']
-                                saved_apps[name].add(app_name)
-                                found = True
-            # Check headers
-            if 'headers' in details.keys():
-                for k, header in details['headers'].items():
-                    if k in headers and re.search(headers[k], header):
-                        for cat in details['cats']:
-                            name = wappalyzer_categories[str(cat)]['name']
-                            saved_apps[name].add(app_name)
-                            found = True
-            # Check html and script
-            search_in_html = []
-            if 'html' in details.keys():
-                if isinstance(details['html'], list):
-                    search_in_html += details['html']
-                if isinstance(details['html'], str):
-                    search_in_html.append(details['html'])
-            if 'script' in details.keys():
-                if isinstance(details['script'], list):
-                    search_in_html += details['script']
-                if isinstance(details['script'], str):
-                    search_in_html.append(details['script'])
-            for regex in search_in_html:
-                if re.search(regex, html):
-                    for cat in details['cats']:
-                        name = wappalyzer_categories[str(cat)]['name']
-                        saved_apps[name].add(app_name)
-                        found = True
-            if found and 'implies' in details.keys():
-                if isinstance(details['implies'], list):
-                    techs = details['implies']
-                elif isinstance(details['implies'], str):
-                    techs = [details['implies']]
-                else:
-                    techs = []
-                for tech in techs:
-                    subcats = wappalyzer_names[tech]
-                    for subcat in subcats:
-                        subcat_category = wappalyzer_categories[str(subcat)]['name']
-                        saved_apps[subcat_category].add(tech)
-        except re.error:
-            # print(warn(f'regex error: {regex}'))
-            pass
-
-    wappalyzer_found = False
-    for category, app_names in saved_apps.items():
-        if app_names:
-            wappalyzer_found = True
-            output = info(f"{category}: {', '.join(map(str, app_names))}")
-            print(output)
-    if not wappalyzer_found:
-        print(info('not found'))
 
 
 if __name__ == '__main__':
