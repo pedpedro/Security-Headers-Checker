@@ -18,10 +18,18 @@ A tool for checking HTTP headers and cookies attributes.
 - Secure
 - Path=/
 
+## Install
+
+```txt
+git clone https://github.com/pedpedro/Security-Headers-Checker.git
+cd Security-Headers-Checker
+pip install -r requirements.txt
+```
+
 ## Usage
 
 ```txt
-usage: simple-security-headers.py [-h] -u URL [--verify] [--verbose]
+usage: simple-security-headers.py [-h] -u URL [--verbose]
 ```
 
 ## Output 
