@@ -33,7 +33,6 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-u', '--url', dest='url', metavar='URL', required=True, help='URL https://example.com')
-    parser.add_argument('--verify', action='store_true', default=False, help='Verify the SSL certificate. Default is set to False.')
     parser.add_argument('--verbose', action='store_true', help='View request and response headers.')
 
     args = parser.parse_args()
@@ -49,17 +48,6 @@ def main():
     args.url = 'https://' + args.url if not args.url.startswith('https') else args.url
     if not valid_url(args.url):
         parser.print_help()
-        exit()
-
-    try:
-        response = session.get(url=args.url, verify=args.verify)
-    except requests.exceptions.ConnectionError as e:
-        print(bold(bad(f"{bold(red('connection error'))}: {e}")))
-        print(bold(bad(f'{args.url}')))
-        exit()
-    except Exception:
-        print(bold(bad(bold(red('connection error')))))
-        print(bold(bad(f'{args.url}')))
         exit()
 
     headers = response.headers
