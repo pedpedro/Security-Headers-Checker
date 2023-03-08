@@ -30,41 +30,41 @@ def validaHeader(nome_header, array_headers):
     if nome_header == 'Strict-Transport-Security':
         hsts = array_headers['Strict-Transport-Security']
         if 'max-age=31536000' in hsts:
-            print(" ↳",good('Strict-Transport-Security configurado corretamente.'))
+            print(" ->",good('Strict-Transport-Security Presente.'))
         else:
-            print(" ↳",bad('Strict-Transport-Security não configurado corretamente.'))
+            print(" ->",bad('Strict-Transport-Security Ausente'))
 
     # X-Frame-Options
     if nome_header == 'X-Frame-Options':
         xfo = array_headers['X-Frame-Options']
         if xfo == 'DENY' or xfo == 'SAMEORIGIN':
-            print(" ↳",good('X-Frame-Options configurado corretamente.'))
+            print(" ->",good('X-Frame-Options Presente.'))
         else:
-            print(" ↳",bad('X-Frame-Options não configurado corretamente.'))
+            print(" ->",bad('X-Frame-Options Ausente'))
 
     # X-XSS-Protection
     if nome_header == 'X-XSS-Protection':
         xss = array_headers['X-XSS-Protection']
         if xss == '1; mode=block' or xss == '1':
-            print(" ↳",good('X-XSS-Protection configurado corretamente.'))
+            print(" ->",good('X-XSS-Protection Presente.'))
         else:
-            print(" ↳",bad('X-XSS-Protection não configurado corretamente.'))
+            print(" ->",bad('X-XSS-Protection Ausente'))
 
     # X-Content-Type-Options
     if nome_header == 'X-Content-Type-Options':
         xcto = array_headers['X-Content-Type-Options']
         if xcto == 'nosniff':
-            print(" ↳",good('X-Content-Type-Options configurado corretamente.'))
+            print(" ->",good('X-Content-Type-Options Presente.'))
         else:
-            print(" ↳",bad('X-Content-Type-Options não configurado corretamente.'))
+            print(" ->",bad('X-Content-Type-Options Ausente'))
 
     # Referrer-Policy
     if nome_header == 'Referrer-Policy':
         rp = array_headers['Referrer-Policy']
         if rp == 'no-referrer' or rp == 'no-referrer-when-downgrade' or rp == 'same-origin' or rp == 'strict-origin' or rp == 'strict-origin-when-cross-origin' or rp == 'origin' or rp == 'origin-when-cross-origin' or rp == 'unsafe-url':
-            print(" ↳",good('Referrer-Policy configurado corretamente.'))
+            print(" ->",good('Referrer-Policy Presente.'))
         else:
-            print(" ↳",bad('Referrer-Policy não configurado corretamente.'))
+            print(" ->",bad('Referrer-Policy Ausente'))
     
 def main():
 
@@ -137,14 +137,14 @@ def main():
         print(json.dumps(dict(headers), indent=2, sort_keys=True))
 
     # Começa a checagem dos headers.
-    print(f"\n{run(bold('Checando headers de segurança ...'))}")
+    print(f"\n{run(bold('Checando Headers ...'))}")
     
     for check_head in check_headers:
         if check_head.lower() in headers:
-            print(good(f'{check_head} Encontrado'))
+            print(good(f'{check_head} Presente.'))
             validaHeader(check_head, headers)
         else:
-            print(bad(f'{check_head} Não Encontrado'))
+            print(bad(f'{check_head} Ausente.'))
 
     # Realiza a separação dos cookies.
     cookies = headers['Set-Cookie']
@@ -157,9 +157,9 @@ def main():
         print(f"{info(bold('cookie: '))} {cookie}")
         for cookie_check in cookie_checks:
             if cookie_check.lower() in cookie.lower():
-                print(" ↳",good(f'{cookie_check} Encontrado'))
+                print(" ->",good(f'{cookie_check} Presente.'))
             else:
-                print(" ↳",bad(f'{cookie_check} Não encontrado'))
+                print(" ->",bad(f'{cookie_check} Ausente.'))
 
 if __name__ == '__main__':
     main()
