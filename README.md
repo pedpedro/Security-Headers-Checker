@@ -1,7 +1,6 @@
 # Simple Security Headers
 
 A tool for checking HTTP headers and cookies attributes.
-It'll ease your day.
 
 ## Security HTTP headers checked
 - Content-Security-Policy (CSP)
@@ -19,10 +18,18 @@ It'll ease your day.
 - Secure
 - Path=/
 
+## Install
+
+```txt
+git clone https://github.com/pedpedro/Security-Headers-Checker.git
+cd Security-Headers-Checker
+pip install -r requirements.txt
+```
+
 ## Usage
 
 ```txt
-usage: simple-security-headers.py [-h] -u URL [--verify] [--verbose]
+usage: simple-security-headers.py [-h] -u URL [--verbose]
 ```
 
 ## Output 
