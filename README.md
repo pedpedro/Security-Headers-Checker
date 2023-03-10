@@ -28,7 +28,7 @@ pip install -r requirements.txt
 ## Usage
 
 ```txt
-usage: simple-security-headers.py [-h] -u URL [--verbose]
+usage: sec-headers-check.py [-h] -u URL [--verbose]
 ```
 
 ## Output 
