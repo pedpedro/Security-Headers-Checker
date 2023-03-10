@@ -30,41 +30,41 @@ def validaHeader(nome_header, array_headers):
     if nome_header == 'Strict-Transport-Security':
         hsts = array_headers['Strict-Transport-Security']
         if 'max-age=31536000' in hsts:
-            print(" ->",good('Strict-Transport-Security Presente.'))
+            print(" ->",good('Strict-Transport-Security configurado corretamente.'))
         else:
-            print(" ->",bad('Strict-Transport-Security Ausente'))
+            print(" ->",bad('Strict-Transport-Security configurado incorretamente.'))
 
     # X-Frame-Options
     if nome_header == 'X-Frame-Options':
         xfo = array_headers['X-Frame-Options']
         if xfo == 'DENY' or xfo == 'SAMEORIGIN':
-            print(" ->",good('X-Frame-Options Presente.'))
+            print(" ->",good('X-Frame-Options configurado corretamente.'))
         else:
-            print(" ->",bad('X-Frame-Options Ausente'))
+            print(" ->",bad('X-Frame-Options configurado incorretamente.'))
 
     # X-XSS-Protection
     if nome_header == 'X-XSS-Protection':
         xss = array_headers['X-XSS-Protection']
         if xss == '1; mode=block' or xss == '1':
-            print(" ->",good('X-XSS-Protection Presente.'))
+            print(" ->",good('X-XSS-Protection configurado corretamente.'))
         else:
-            print(" ->",bad('X-XSS-Protection Ausente'))
+            print(" ->",bad('X-XSS-Protection configurado incorretamente.'))
 
     # X-Content-Type-Options
     if nome_header == 'X-Content-Type-Options':
         xcto = array_headers['X-Content-Type-Options']
         if xcto == 'nosniff':
-            print(" ->",good('X-Content-Type-Options Presente.'))
+            print(" ->",good('X-Content-Type-Options configurado corretamente.'))
         else:
-            print(" ->",bad('X-Content-Type-Options Ausente'))
+            print(" ->",bad('X-Content-Type-Options configurado incorretamente.'))
 
     # Referrer-Policy
     if nome_header == 'Referrer-Policy':
         rp = array_headers['Referrer-Policy']
         if rp == 'no-referrer' or rp == 'no-referrer-when-downgrade' or rp == 'same-origin' or rp == 'strict-origin' or rp == 'strict-origin-when-cross-origin' or rp == 'origin' or rp == 'origin-when-cross-origin' or rp == 'unsafe-url':
-            print(" ->",good('Referrer-Policy Presente.'))
+            print(" ->",good('Referrer-Policy configurado corretamente.'))
         else:
-            print(" ->",bad('Referrer-Policy Ausente'))
+            print(" ->",bad('Referrer-Policy configurado incorretamente.'))
     
 def main():
 
